@@ -1,0 +1,60 @@
+/* 
+rem Sass函数：定义px转化成rem
+$base-font-size ：为html的font-size的大小【font-size：js动态获取】
+ */
+@function rem($px, $base-font-size:75){
+  @return ($px / $base-font-size ) * 1rem;
+}
+
+/* 
+data-dpr Sass混合宏：这样设置不同设备像素比下的字体比较简单
+ */
+@mixin font-dpr($font-size){
+    font-size: $font-size / 2;
+    [data-dpr="2"] & {
+        font-size: $font-size ;
+    }
+    [data-dpr="3"] & {
+        font-size: $font-size / 2 * 3;
+    }
+}
+/*
+动态设置背景图片
+*/
+@mixin bg-image($url){
+	background-image: url($url+'@2x.png');
+	@media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3) {
+		background-image: url($url+'@3x.png');
+	}
+}
+/*
+设置 1 像素边框
+*/
+%borderOne {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid rgba(7, 17, 27, .1);
+    @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2) {
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+    };
+    @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3) {
+      -webkit-transform: scaleY(0.33);
+      transform: scaleY(0.33);
+    }
+  };
+}
+
+/* 
+去掉 1 像素边框
+ */
+%noBorder {
+  &::before {
+    display: none;
+  };
+} 
